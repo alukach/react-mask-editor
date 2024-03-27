@@ -59,16 +59,20 @@ export const MaskEditor: React.FC<MaskEditorProps> = (props: MaskEditorProps) =>
     }
   }, [cursorCanvas]);
 
+  const [image, setImage] = React.useState<HTMLImageElement>();
   React.useEffect(() => {
-    if (src && context) {
-      const img = new Image;
-      img.onload = evt => {
-        setSize({x: img.width, y: img.height});
-        context?.drawImage(img, 0, 0);
-      }
-      img.src = src;
-    }
-  }, [src, context]);
+    const img = new Image();
+    img.onload = (evt) => {
+      setSize({ x: img.width, y: img.height });
+      context?.drawImage(img, 0, 0);
+    };
+    img.src = src;
+    setImage(img);
+  }, [src]);
+
+  React.useEffect(() => {
+    context?.drawImage(img!, 0, 0);
+  }, [size, image]);
 
   // Pass mask canvas up
   React.useLayoutEffect(() => {
