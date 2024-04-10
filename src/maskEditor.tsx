@@ -71,7 +71,8 @@ export const MaskEditor: React.FC<MaskEditorProps> = (props: MaskEditorProps) =>
   }, [src]);
 
   React.useEffect(() => {
-    context?.drawImage(img!, 0, 0);
+    if (!image) return;
+    context?.drawImage(image, 0, 0);
   }, [size, image]);
 
   // Pass mask canvas up
